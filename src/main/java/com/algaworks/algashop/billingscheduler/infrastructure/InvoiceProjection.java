@@ -10,8 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceProjection {
-
     private UUID id;
     private String paymentGatewayCode;
-
 }

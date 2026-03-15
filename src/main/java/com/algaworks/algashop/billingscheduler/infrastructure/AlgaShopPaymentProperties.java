@@ -8,26 +8,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Data
 @Component
-@Validated
 @ConfigurationProperties("algashop.integrations.payment")
+@Data
+@Validated
 public class AlgaShopPaymentProperties {
 
     @NotNull
     @Valid
     private FastpayProperties fastpay;
 
-    @Data
     @Validated
+    @Data
     public static class FastpayProperties {
-
         @NotBlank
         private String hostname;
 
         @NotBlank
         private String privateToken;
-
     }
-
 }

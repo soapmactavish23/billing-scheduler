@@ -78,18 +78,19 @@ public class CancelExpiredInvoicesApplicationServiceJDBCImpl implements CancelEx
     }
 
     private int cancelInvoices(List<InvoiceProjection> invoices) {
-        List<InvoiceProjection> cancelledInvoices = invoices.stream().filter((invoiceProjection -> {
-            try {
-                fastpayPaymentAPIClient.cancel(invoiceProjection.getPaymentGatewayCode());
-                log.info("Task - Invoice {} has the payment {} cancelled on gateway",
-                        invoiceProjection.getId(), invoiceProjection.getPaymentGatewayCode());
-                return true;
-            } catch (Exception e) {
-                log.error("Task - Failed to cancel invoice {} payment {} on the gateway",
-                        invoiceProjection.getId(), invoiceProjection.getPaymentGatewayCode());
-                return false;
-            }
-        })).toList();
+        List<InvoiceProjection> cancelledInvoices = invoices.stream()
+                .filter(invoiceProjection -> {
+                    try {
+                        fastpayPaymentAPIClient.cancel(invoiceProjection.getPaymentGatewayCode());
+                        log.info("Task - Invoice {} has the payment {} cancelled on gateway",
+                                invoiceProjection.getId(), invoiceProjection.getPaymentGatewayCode());
+                        return true;
+                    } catch (Exception e) {
+                        log.error("Task - Failed to cancel invoice {} payment {} on the gateway",
+                                invoiceProjection.getId(), invoiceProjection.getPaymentGatewayCode());
+                        return false;
+                    }
+                }).toList();
 
         try {
             jdbcOperations.batchUpdate(UPDATE_INVOICE_STATUS_SQL,
@@ -99,8 +100,8 @@ public class CancelExpiredInvoicesApplicationServiceJDBCImpl implements CancelEx
                         ps.setString(1, CANCEL_STATUS);
                         ps.setString(2, CANCEL_REASON);
                         ps.setObject(3, invoiceProjection.getId());
-                    });
-
+                    }
+            );
             log.info("Task - Invoices canceled");
             return cancelledInvoices.size();
         } catch (DataAccessException e) {

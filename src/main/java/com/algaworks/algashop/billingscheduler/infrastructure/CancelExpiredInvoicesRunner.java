@@ -7,10 +7,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class CancelExpiredInvoiceRunner implements ApplicationRunner {
+@Slf4j
+public class CancelExpiredInvoicesRunner implements ApplicationRunner {
 
     private final CancelExpiredInvoicesApplicationService applicationService;
 
