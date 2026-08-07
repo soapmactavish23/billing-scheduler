@@ -101,7 +101,7 @@ public class CancelExpiredInvoicesApplicationServiceJDBCImpl implements CancelEx
                         ps.setString(2, CANCEL_REASON);
                         ps.setObject(3, invoiceProjection.getId());
                     }
-            );
+                    );
             log.info("Task - Invoices canceled");
             return cancelledInvoices.size();
         } catch (DataAccessException e) {
